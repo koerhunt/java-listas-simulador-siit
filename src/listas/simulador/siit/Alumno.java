@@ -17,9 +17,9 @@ public class Alumno extends Nodo{
     public int creditos;
     public int semestre;
     public float promedio_acumulado;
-    public Lista <Materias> materias;
+    public Lista <Materia> materias;
 
-    public Alumno(String no_control, String nombre, String apellido_mat, String apellido_pat, int creditos, int semestre, float promedio_acumulado, Lista materias) {
+    public Alumno(String no_control, String nombre, String apellido_mat, String apellido_pat, int creditos, int semestre, float promedio_acumulado) {
         this.no_control = no_control;
         this.nombre = nombre;
         this.apellido_mat = apellido_mat;
@@ -27,7 +27,7 @@ public class Alumno extends Nodo{
         this.creditos = creditos;
         this.semestre = semestre;
         this.promedio_acumulado = promedio_acumulado;
-        this.materias=materias;
+        this.materias= new Lista();
     }
 
     public String getNo_control() {
@@ -86,14 +86,13 @@ public class Alumno extends Nodo{
         this.promedio_acumulado = promedio_acumulado;
     }
 
-    public Lista<Materias> getMaterias() {
+    public Lista<Materia> getMaterias() {
         return materias;
     }
 
-    public void setMaterias(Lista<Materias> materias) {
-        this.materias = materias;
+    public void agregarMateria(Materia m) {
+        this.materias.InsertarAlFinal(m);
     }
-    
     
     
     

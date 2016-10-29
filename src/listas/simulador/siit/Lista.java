@@ -76,9 +76,10 @@ public class Lista<Type> {
     };
     
     public void InsertarAlFinal(Type nodo){
-        if(!estaVacia()){
+        if(crearOInsertar(nodo)){
             ((Nodo)u).liga_derecha = nodo;
             u = nodo;
+            ((Nodo)u).liga_derecha = null;
         }
     }
     
@@ -226,7 +227,6 @@ public class Lista<Type> {
                     Field f = p.getClass().getField(atributo);
                     System.out.println(f.get(r));
                 }
-                System.out.println("******-------******");
                 r = (Type) ((Nodo)r).liga_derecha;
             }
         }

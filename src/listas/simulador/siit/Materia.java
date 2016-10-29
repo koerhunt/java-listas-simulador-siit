@@ -9,21 +9,22 @@ package listas.simulador.siit;
  *
  * @author Rodarte Fernández
  */
-public class Materias extends Nodo{
+public class Materia extends Nodo{
      
-    public String nombre,clave,cadena[];
-    public Lista <Alumno> listaAlumnos;
+    public String nombre,clave;
     public int creditos;
     //public float promedio;
+    
+    public Materia cadena;
+    public Lista <Alumno> listaAlumnos;
 
-    public Materias(String nombre, String clave, String cadena[], int creditos) {
+    public Materia(String nombre, String clave, Materia cadena, int creditos) {
         this.nombre = nombre;
         this.clave = clave;
         this.cadena = cadena;
         this.creditos = creditos;
+        listaAlumnos = new Lista();
     }
-    
-    
 
     public String getNombre() {
         return nombre;
@@ -41,11 +42,11 @@ public class Materias extends Nodo{
         this.clave = clave;
     }
 
-    public String[] getCadena() {
+    public Materia getCadena() {
         return cadena;
     }
 
-    public void setCadena(String cadena[]) {
+    public void setCadena(Materia cadena) {
         this.cadena = cadena;
     }
 
