@@ -5,14 +5,66 @@
  */
 package listas.simulador.siit;
 
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
+
 /**
  *
  * @author Rodarte Fernández
  */
 public class Menu extends javax.swing.JFrame {
+    static boolean ejecutar=true;
+    //Creamos las materias
+    static Materia calD = new Materia("Cálculo diferencial","01",null,5);
+    static Materia prog = new Materia("Fundamentos de programación","02",null,5);
+    static Materia fInv = new Materia("Fundamentos de investigación","03",null,5);
+    static Materia eti = new Materia("Ética","04",null,5);
+    static Materia matD = new Materia("Matemáticas discretas","05",null,5);
+    static Materia adm = new Materia("Administración","06",null,5);
+    static String[] atributos_alumno = {"nombre","apellido_pat","no_control"},atributos_materia={"nombre","clave","creditos"};
+    //Creamos las listas donde estarán todos los alumnos y todas las materias
+    static Lista<Materia> todas_las_materias = new Lista();
+    static Lista<Alumno> todos_los_alumnos =new Lista();
+    
+    public static void añadirMateriasALaLista(){
+         //Agregamos las materias a la lista con todas las materias
+        todas_las_materias.InsertarAlInicio(calD);
+        todas_las_materias.InsertarAlInicio(prog);
+        todas_las_materias.InsertarAlInicio(fInv);
+        todas_las_materias.InsertarAlInicio(eti);
+        todas_las_materias.InsertarAlInicio(matD);
+        todas_las_materias.InsertarAlInicio(adm);
+        ejecutar=false;
 
+    }
+    public static void agregarMateriasDePrimerSemestre(Alumno a) {
+        //Al alumno se le agrega su materia
+        a.agregarMateria(calD);
+        a.agregarMateria(prog);
+        a.agregarMateria(fInv);
+        a.agregarMateria(eti);
+        a.agregarMateria(matD);
+        a.agregarMateria(adm);
+        
+        //a la lista de alumnos de la materia se le agrega el alumno
+        calD.listaAlumnos.InsertarAlFinal(a);
+        prog.listaAlumnos.InsertarAlFinal(a);
+        fInv.listaAlumnos.InsertarAlFinal(a);
+        eti.listaAlumnos.InsertarAlFinal(a);
+        matD.listaAlumnos.InsertarAlFinal(a);
+        adm.listaAlumnos.InsertarAlFinal(a);
+    }
+       
+    public static int generarAleatorio(){
+        Random gen=new Random();
+        return ((int)(gen.nextDouble()*99+100));
+    }
     /**
      * Creates new form Menu
+     * 
      */
     public Menu() {
         initComponents();
@@ -32,18 +84,41 @@ public class Menu extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("Inscribir alumno");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Reinscripción");
 
         jButton3.setText("Dar de baja alumno");
 
         jButton4.setText("Alumnos inscritos");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Alumnos por materia");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("Mostrar materias");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -53,6 +128,11 @@ public class Menu extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(36, 36, 36))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton5)
                         .addGap(68, 169, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
@@ -61,10 +141,6 @@ public class Menu extends javax.swing.JFrame {
                             .addComponent(jButton1)
                             .addComponent(jButton3))
                         .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(36, 36, 36))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -77,18 +153,93 @@ public class Menu extends javax.swing.JFrame {
                 .addComponent(jButton4)
                 .addGap(18, 18, 18)
                 .addComponent(jButton5)
-                .addGap(12, 12, 12)
-                .addComponent(jButton2)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jButton2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton6)))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       int num_random;
+       String nombre,ape_mat,ape_pat,num_control="15041";
+       num_random=generarAleatorio();
+       num_control+=num_random;
+       nombre=JOptionPane.showInputDialog("Nombre(s).");
+       ape_pat=JOptionPane.showInputDialog("Apellido paterno.");
+       ape_mat=JOptionPane.showInputDialog("Apellido materno.");
+       Alumno a = new Alumno(num_control, nombre, ape_pat, ape_mat, 0, 1, 0);
+       agregarMateriasDePrimerSemestre(a);
+       //Agregamos el alumno a la lista de alumnos general
+       todos_los_alumnos.InsertarAlFinal(a);
+
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if(!todos_los_alumnos.estaVacia()){
+            try {
+                todos_los_alumnos.imprimirLista(atributos_alumno);
+            } catch (NoSuchFieldException ex) {
+                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalArgumentException ex) {
+                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else
+            JOptionPane.showMessageDialog(null,"No hay alumnos inscritos");
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        String ref;
+        if(!todos_los_alumnos.estaVacia()){
+            try {
+                ref=JOptionPane.showInputDialog("Clave de la materia a consultar.");
+                Materia a;
+                a=todas_las_materias.consultarReferencia("clave",ref);
+                if(!a.getListaAlumnos().estaVacia())
+                    a.getListaAlumnos().imprimirLista(atributos_alumno);
+                else
+                    JOptionPane.showMessageDialog(null,"No hay alumnos en la materia.");
+            } catch (NoSuchFieldException ex) {
+                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalArgumentException ex) {
+                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else
+            JOptionPane.showMessageDialog(null,"No hay alumnos inscritos.");
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        try {
+            todas_las_materias.imprimirLista(atributos_materia);
+        } catch (NoSuchFieldException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        if(ejecutar)
+        añadirMateriasALaLista();
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -126,5 +277,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     // End of variables declaration//GEN-END:variables
 }

@@ -26,7 +26,7 @@ public class Siit {
     static Materia matD = new Materia("Matemáticas discretas","05",null,5);
     static Materia adm = new Materia("Administración","06",null,5);
 
-    public static void main(String[] args){
+    /*public static void main(String[] args){
         //Arreglo del nombre de los campos a imprimir de la lista
         String[] atributos_alumno = {"no_control","nombre"},atributos_materia={"nombre","clave"};
         
@@ -69,7 +69,7 @@ public class Siit {
         
         
         
-    }
+    }*/
 
     private static void agregarMateriasDePrimerSemestre(Alumno a) {
         //Al alumno se le agrega su materia
