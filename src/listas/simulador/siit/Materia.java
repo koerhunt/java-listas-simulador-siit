@@ -15,6 +15,9 @@ public class Materia extends Nodo{
     public int creditos;
     //public float promedio;
     
+    public static final String [] ATRIBUTOS_MATERIA={"clave","nombre","creditos"};
+    
+    
     public Materia cadena;
     public Lista <Alumno> listaAlumnos;
 

@@ -18,6 +18,8 @@ public class Alumno extends Nodo{
     public int semestre;
     public float promedio_acumulado;
     public Lista <Materia> materias;
+    
+    public static final String[] ATRIBUTOS_ALUMNO = {"no_control","nombre","apellido_mat","apellido_pat"};
 
     public Alumno(String no_control, String nombre, String apellido_mat, String apellido_pat, int creditos, int semestre, float promedio_acumulado) {
         this.no_control = no_control;
@@ -88,10 +90,6 @@ public class Alumno extends Nodo{
 
     public Lista<Materia> getMaterias() {
         return materias;
-    }
-
-    public void agregarMateria(Materia m) {
-        this.materias.InsertarAlFinal(m);
     }
     
     

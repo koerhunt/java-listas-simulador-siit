@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  * @author Rodarte Fernández
  */
 public class Menu extends javax.swing.JFrame {
-    static boolean ejecutar=true;
+    
     //Creamos las materias
     static Materia calD = new Materia("Cálculo diferencial","01",null,5);
     static Materia prog = new Materia("Fundamentos de programación","02",null,5);
@@ -24,38 +24,67 @@ public class Menu extends javax.swing.JFrame {
     static Materia eti = new Materia("Ética","04",null,5);
     static Materia matD = new Materia("Matemáticas discretas","05",null,5);
     static Materia adm = new Materia("Administración","06",null,5);
-    static String[] atributos_alumno = {"nombre","apellido_pat","no_control"},atributos_materia={"nombre","clave","creditos"};
-    //Creamos las listas donde estarán todos los alumnos y todas las materias
-    static Lista<Materia> todas_las_materias = new Lista();
-    static Lista<Alumno> todos_los_alumnos =new Lista();
     
-    public static void añadirMateriasALaLista(){
+    //Creamos las listas donde estarán todos los alumnos y todas las materias
+    Lista<Materia> todas_las_materias = new Lista();
+    
+    Lista<Alumno> todos_los_alumnos =new Lista();
+    
+    public void añadirMateriasALaLista(){
          //Agregamos las materias a la lista con todas las materias
-        todas_las_materias.InsertarAlInicio(calD);
-        todas_las_materias.InsertarAlInicio(prog);
-        todas_las_materias.InsertarAlInicio(fInv);
-        todas_las_materias.InsertarAlInicio(eti);
-        todas_las_materias.InsertarAlInicio(matD);
-        todas_las_materias.InsertarAlInicio(adm);
-        ejecutar=false;
+        todas_las_materias.InsertarAlFinal(calD);
+        todas_las_materias.InsertarAlFinal(prog);
+        todas_las_materias.InsertarAlFinal(fInv);
+        todas_las_materias.InsertarAlFinal(eti);
+        todas_las_materias.InsertarAlFinal(matD);
+        todas_las_materias.InsertarAlFinal(adm);
 
     }
-    public static void agregarMateriasDePrimerSemestre(Alumno a) {
-        //Al alumno se le agrega su materia
-        a.agregarMateria(calD);
-        a.agregarMateria(prog);
-        a.agregarMateria(fInv);
-        a.agregarMateria(eti);
-        a.agregarMateria(matD);
-        a.agregarMateria(adm);
+    public void agregarMateriasDePrimerSemestre(Alumno a) {
+       //Al alumno se le agrega su materia
+       a.materias.InsertarAlFinal(calD);
+       a.materias.InsertarAlFinal(prog);
+       a.materias.InsertarAlFinal(fInv);
+       a.materias.InsertarAlFinal(eti);
+       a.materias.InsertarAlFinal(matD);
+       a.materias.InsertarAlFinal(adm);
         
-        //a la lista de alumnos de la materia se le agrega el alumno
-        calD.listaAlumnos.InsertarAlFinal(a);
-        prog.listaAlumnos.InsertarAlFinal(a);
-        fInv.listaAlumnos.InsertarAlFinal(a);
-        eti.listaAlumnos.InsertarAlFinal(a);
-        matD.listaAlumnos.InsertarAlFinal(a);
-        adm.listaAlumnos.InsertarAlFinal(a);
+       //a la lista de alumnos de la materia se le agrega el alumno
+       calD.listaAlumnos.InsertarAlFinal(a);
+       prog.listaAlumnos.InsertarAlFinal(a);
+       fInv.listaAlumnos.InsertarAlFinal(a);
+       eti.listaAlumnos.InsertarAlFinal(a);
+       matD.listaAlumnos.InsertarAlFinal(a);
+       adm.listaAlumnos.InsertarAlFinal(a);
+    }
+    
+    public void eliminarMaterias(String no_control){
+        try {
+            if(calD.listaAlumnos.existePoref("no_control",no_control)){
+                calD.listaAlumnos.EliminarPorReferencia("no_control",no_control);
+            }
+            if(prog.listaAlumnos.existePoref("no_control",no_control)){
+                prog.listaAlumnos.EliminarPorReferencia("no_control",no_control);
+            }
+            if(fInv.listaAlumnos.existePoref("no_control",no_control)){
+                fInv.listaAlumnos.EliminarPorReferencia("no_control",no_control);
+            }
+            if(eti.listaAlumnos.existePoref("no_control",no_control)){
+                eti.listaAlumnos.EliminarPorReferencia("no_control",no_control);
+            }
+            if(matD.listaAlumnos.existePoref("no_control",no_control)){
+                matD.listaAlumnos.EliminarPorReferencia("no_control",no_control);
+            }
+            if(adm.listaAlumnos.existePoref("no_control",no_control)){
+                adm.listaAlumnos.EliminarPorReferencia("no_control",no_control);
+            }
+        } catch (NoSuchFieldException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
        
     public static int generarAleatorio(){
@@ -68,6 +97,23 @@ public class Menu extends javax.swing.JFrame {
      */
     public Menu() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        añadirMateriasALaLista();
+        
+        Alumno a = new Alumno("15042345", "Elias", "Sanchez", "Perez", 0, 1, 0);
+        Alumno b = new Alumno("15042334", "Pedro", "Rodarte", "Fernandez", 0, 1, 0);
+        Alumno c = new Alumno("15042317", "Sebastian", "Hernandez", "Ochoa", 0, 1, 0);
+        Alumno d = new Alumno("15042325", "Idaly", "Campos", "Romero", 0, 1, 0);
+        
+        agregarMateriasDePrimerSemestre(a);
+        agregarMateriasDePrimerSemestre(b);
+        agregarMateriasDePrimerSemestre(c);
+        agregarMateriasDePrimerSemestre(d);
+        
+        todos_los_alumnos.InsertarAlFinal(a);
+        todos_los_alumnos.InsertarAlFinal(b);
+        todos_los_alumnos.InsertarAlFinal(c);
+        todos_los_alumnos.InsertarAlFinal(d);
     }
 
     /**
@@ -98,22 +144,27 @@ public class Menu extends javax.swing.JFrame {
         jButton2.setText("Reinscripción");
 
         jButton3.setText("Dar de baja alumno");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Alumnos inscritos");
+        jButton4.setText("Mostrar Alumnos Inscritos");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
 
-        jButton5.setText("Alumnos por materia");
+        jButton5.setText("Mosrar Alumnos por materia");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
             }
         });
 
-        jButton6.setText("Mostrar materias");
+        jButton6.setText("Mostrar Materias De La Reticula De Sistemas");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
@@ -125,42 +176,32 @@ public class Menu extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addGap(36, 36, 36))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton5)
-                        .addGap(68, 169, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton4)
-                            .addComponent(jButton1)
-                            .addComponent(jButton3))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addContainerGap()
                 .addComponent(jButton1)
-                .addGap(31, 31, 31)
-                .addComponent(jButton3)
-                .addGap(32, 32, 32)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addGap(43, 43, 43)
                 .addComponent(jButton4)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton5)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jButton2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton6)))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addComponent(jButton3)
+                .addContainerGap())
         );
 
         pack();
@@ -172,30 +213,27 @@ public class Menu extends javax.swing.JFrame {
        num_random=generarAleatorio();
        num_control+=num_random;
        nombre=JOptionPane.showInputDialog("Nombre(s).");
-       ape_pat=JOptionPane.showInputDialog("Apellido paterno.");
        ape_mat=JOptionPane.showInputDialog("Apellido materno.");
-       Alumno a = new Alumno(num_control, nombre, ape_pat, ape_mat, 0, 1, 0);
+       ape_pat=JOptionPane.showInputDialog("Apellido paterno.");
+       Alumno a = new Alumno(num_control, nombre, ape_mat, ape_pat, 0, 1, 0);
        agregarMateriasDePrimerSemestre(a);
        //Agregamos el alumno a la lista de alumnos general
        todos_los_alumnos.InsertarAlFinal(a);
-
-        
+       JOptionPane.showMessageDialog(null,"Alumno inscrito correctamente a primer semestre");
+       
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        
         if(!todos_los_alumnos.estaVacia()){
-            try {
-                todos_los_alumnos.imprimirLista(atributos_alumno);
-            } catch (NoSuchFieldException ex) {
-                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalArgumentException ex) {
-                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        else
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                     new VistaMostrarAlumnos(todos_los_alumnos).setVisible(true);
+                }
+            });
+        }else{
             JOptionPane.showMessageDialog(null,"No hay alumnos inscritos");
+        }
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -207,7 +245,7 @@ public class Menu extends javax.swing.JFrame {
                 Materia a;
                 a=todas_las_materias.consultarReferencia("clave",ref);
                 if(!a.getListaAlumnos().estaVacia())
-                    a.getListaAlumnos().imprimirLista(atributos_alumno);
+                    a.getListaAlumnos().imprimirLista(Alumno.ATRIBUTOS_ALUMNO);
                 else
                     JOptionPane.showMessageDialog(null,"No hay alumnos en la materia.");
             } catch (NoSuchFieldException ex) {
@@ -223,8 +261,37 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        
+        if(!todas_las_materias.estaVacia()){
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                     new VistaMostrarMaterias(todas_las_materias).setVisible(true);
+                }
+            });
+        }else{
+            JOptionPane.showMessageDialog(null,"No hay alumnos inscritos");
+        }
+        
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
-            todas_las_materias.imprimirLista(atributos_materia);
+            String ref;
+            if(!todos_los_alumnos.estaVacia()){
+                ref=JOptionPane.showInputDialog("Número de control del alumno a eliminar");
+                if(todos_los_alumnos.existePoref("no_control",ref)){
+                    //Eliminar alumno de la lista de alumnos
+                    todos_los_alumnos.EliminarPorReferencia("no_control", ref);
+                    //Eliminar alumno de sus respectivas materias
+                    eliminarMaterias(ref);    
+                    JOptionPane.showMessageDialog(null,"El alumno ha sido eliminado exitosamente.");                    
+                }   
+                else
+                    JOptionPane.showMessageDialog(null,"El número de control ingresado no existe.");
+            }
+            else
+                JOptionPane.showMessageDialog(null,"No hay alumnos inscritos.");
+            
         } catch (NoSuchFieldException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalArgumentException ex) {
@@ -232,14 +299,12 @@ public class Menu extends javax.swing.JFrame {
         } catch (IllegalAccessException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        if(ejecutar)
-        añadirMateriasALaLista();
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

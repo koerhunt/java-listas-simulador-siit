@@ -6,29 +6,33 @@
 package listas.simulador.siit;
 
 import java.lang.reflect.Field;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
- * @author shirokami
+ * @author elias
  * @param <Type>
  */
 public class Lista<Type> {
     
-    Type p = null;
-    Type w = null;
-    Type u = null;
-    Type r = null;
-    Type a = null;
-    Type tmp = null;
+    Type p, w, u, r ,a, tmp;
     
     public Lista(){
-        
+        p = null;
+        w = null;
+        u = null;
+        r = null;
+        a = null;
+        tmp = null;
     }
     
     public boolean crearOInsertar(Type nodo){
         if(p == null){
             p = nodo;
             u = nodo;
+            ((Nodo)nodo).liga_derecha = null;
             return false;
         }else{
             return true;
@@ -150,7 +154,7 @@ public class Lista<Type> {
                     //destruir tmp
                 }else{
                     tmp = r;
-                    r = null;
+                    //r = null;
                     ((Nodo)a).liga_derecha = null;
                     //destruir tmp
                 }
@@ -211,7 +215,7 @@ public class Lista<Type> {
                     e = r;
                 }
                 //avanzamos en la lista
-                r = (Type)((Nodo) p).liga_derecha;
+                r = (Type)((Nodo) r).liga_derecha;
             }
             return e;
         }else{
@@ -224,13 +228,30 @@ public class Lista<Type> {
             r = p;
             while(r!=null){
                 for(String atributo : atributos){
-                    Field f = p.getClass().getField(atributo);
+                    Field f = r.getClass().getField(atributo);
                     System.out.println(f.get(r));
                 }
                 r = (Type) ((Nodo)r).liga_derecha;
             }
         }
     };
-    
-    //void CambiarAtributo();
+
+
+    void mostrarEnJtable(JTable jTable1, String atributos[])  throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        
+        if(!estaVacia()){
+            r = p;
+            int i = 0;
+            while(r!=null){
+                for(int j =0; j<atributos.length; j++){
+                    Field f = r.getClass().getField(atributos[j]);
+                    model.setValueAt(f.get(r), i, j);
+                }
+                r = (Type) ((Nodo)r).liga_derecha;
+                i++;
+            }
+        }
+        
+    }
 }

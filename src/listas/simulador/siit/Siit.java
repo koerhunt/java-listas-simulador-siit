@@ -5,8 +5,6 @@
  */
 package listas.simulador.siit;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -73,12 +71,13 @@ public class Siit {
 
     private static void agregarMateriasDePrimerSemestre(Alumno a) {
         //Al alumno se le agrega su materia
-        a.agregarMateria(calD);
-        a.agregarMateria(prog);
-        a.agregarMateria(fInv);
-        a.agregarMateria(eti);
-        a.agregarMateria(matD);
-        a.agregarMateria(adm);
+       a.materias.InsertarAlFinal(calD);
+       a.materias.InsertarAlFinal(prog);
+       a.materias.InsertarAlFinal(fInv);
+       a.materias.InsertarAlFinal(eti);
+       a.materias.InsertarAlFinal(matD);
+       a.materias.InsertarAlFinal(adm);
+        
         
         //a la lista de alumnos de la materia se le agrega el alumno
         calD.listaAlumnos.InsertarAlFinal(a);
